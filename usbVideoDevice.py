@@ -8,15 +8,15 @@ class UsbVideoDevice:
         try:
             cmd = 'ls -la /dev/v4l/by-id'
             res = subprocess.check_output(cmd.split())
-            by_id = res.decode()            
-        except:
+            by_id = res.decode()
+        except Exception:
             return
 
         try:
             cmd = 'ls -la /dev/v4l/by-path'
             by_path = subprocess.check_output(cmd.split()).decode()
             # print(by_path)
-        except:
+        except Exception:
             return
 
         # Get device name
@@ -54,14 +54,20 @@ class UsbVideoDevice:
         return tmp
 
     # Display a list of recognized Video devices
-    def disp(self):
+    def dispAllInfo(self):
         for (deviceId, port, name) in self.__deviceList:
             print(f'/dev/video{deviceId} port:{port} {name}')
             # print("/dev/video{} port:{} {}".format(deviceId, port, name))
 
     # Get the Video ID by specifying the port number (1 ..)
-    def getId(self, port):
+    def getId_byPort(self, port):
         for (deviceId, p, _) in self.__deviceList:
             if(p == port):
                 return deviceId
         return -1
+
+    def getAllId(self):
+        ids = []
+        for item in self.__deviceList:
+            ids.append(item[0])
+        return ids
