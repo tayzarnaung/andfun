@@ -1,4 +1,5 @@
 import configparser
+import json
 
 config = configparser.ConfigParser()
 
@@ -17,10 +18,24 @@ topsecret = config['topsecret.server.com']
 topsecret['ForwardX11']     # 'no'
 topsecret['Port']   # '50022'
 
-for key in config['topsecret.server.com']:
-    print(key)  # user
-                # compressionlevel
-                # serveraliveinterval
-                # compression
-                # forwardx11
+# for key in config['topsecret.server.com']:
+    # print(key)  # user
+    # compressionlevel
+    # serveraliveinterval
+    # compression
+    # forwardx11
+
 config['bitbucket.org']['ForwardX11']   # yes
+
+config.items('content')
+# [
+#     ('serveraliveinterval', '45'), ('compression', 'yes'), ('compressionlevel', '9'),
+#     ('forwardx11', 'yes'), ('cost', '[20, 10.5, -1]')
+# ]
+dict(config.items('content'))
+# {
+#     'serveraliveinterval': '45', 'compression': 'yes', 'compressionlevel': '9', 
+#     'forwardx11': 'yes', 'cost': '[20, 10.5, -1]'
+# }
+json.loads(config.get("content", "cost"))
+# [20, 10.5, -1]    # list

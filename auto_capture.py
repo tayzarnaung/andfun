@@ -5,35 +5,54 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
+content = config['content']
 # print(config.sections())
 
-content = config['content']
+ret, cap, imgs, webcam_names = ([] for _ in range(4))
+webcam_ids = [0, 2]
 
-cap = cv2.VideoCapture(int(content['webcam_id']))
-cap.set(3, int(content['img_width']))
-cap.set(4, int(content['img_height']))    # to get FHD, but my display is HD(1280x720)
+for i in webcam_ids:
+    webcam_names.append(('Webcam: ' + str(i)))
+# print(webcam_names)
+
+# initialize fixed size lists
+for i in range(len(webcam_ids)):
+    ret.append(i)
+    cap.append(i)
+    imgs.append(i)
+
+for index, webcam_id in enumerate(webcam_ids):
+    cap[index] = cv2.VideoCapture(webcam_id)
+    # cap = cv2.VideoCapture(list(content['webcam_id'])[0])
+    # cap = cv2.VideoCapture(0)
+    # cap[index].set(3, int(content['img_width']))
+    # cap[index].set(4, int(content['img_height']))
 
 start_time = datetime.datetime.now()
-path = os.path.expanduser(content['save_img_path'])
+# path = os.path.expanduser(content['save_img_path'])
+path = os.path.expanduser('/home/wc/Desktop/code/ML/andfun/studio/images')
 img_counter = 1
 
 while True:
-    ret, img = cap.read()
-    cv2.imshow('Studio', img)
+    for i in range(len(webcam_ids)):
+        ret[i], imgs[i] = cap[i].read()
+        cv2.imshow(webcam_names[i], imgs[i])
 
     if (datetime.datetime.now() - start_time).seconds == 1:  # Time elapsed 1 sec
         start_time = datetime.datetime.now()
         print(start_time.second)
 
-        # count = int(content['capture_img_per_sec'])
         # while count > 0:
         for i in range(int(content['capture_img_per_sec'])):
-            img_name = f"prefix_camera{img_counter}.png"
+            for j in range(len(webcam_ids)):
 
-            cv2.imwrite(os.path.join(path, img_name), img)
-            print(f"{img_name} written! {img.shape[1]}x{img.shape[0]} pixels")
+                img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
 
-            img_counter += 1
+                cv2.imwrite(os.path.join(path, img_name), imgs[j])
+                print(
+                    f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
+
+                img_counter += 1
             # count -= 1
 
     if img_counter >= int(content['max_img_counter']):
@@ -42,5 +61,5 @@ while True:
     if cv2.waitKey(10) & 0xFF == ord('q'):
         break
 
-cap.release()  # close the camera
+# cap.release()  # close the camera
 cv2.destroyAllWindows()  # close all the opened windows

@@ -12,4 +12,4 @@ for port in range(7):
         print(f"PORT:{port} ID:{deviceId} /dev/video{deviceId}")
         # print("PORT:{} /dev/video{}".format(port, deviceId))
 
-print("Getting All  Web Cam Ids: ", usbVideoDevice.getAllId())
+print("Getting All  Web Cam Ids: ", usbVideoDevice.getAllId())  # [2, 0]

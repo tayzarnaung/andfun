@@ -3,7 +3,8 @@ import configparser
 config = configparser.ConfigParser()
 
 config['content'] = {
-    'webcam_id': '2',
+    # 'webcam_id': '2',
+    'webcam_id': [0, 2],
     'img_width': 1280,
     'img_height': 720,
     'capture_img_per_sec': 3,

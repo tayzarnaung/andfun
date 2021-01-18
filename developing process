@@ -1,0 +1,21 @@
+Andfun Yangon/Studio
+
+Version: 2.0
+
+New Features: 
+    Multiple Web cam capturing 3 imgaes per second automatically.
+
+Description:
+    I set the limit of auto capturing imgaes just to 20 phtots.
+
+Usage:
+    "auto_capture_config.txt" is input for user's desired setting.
+    "auto_capture.py" will do the main function.
+    "usbVideoDevice.py" is class for retrieval of device id & port number.
+    "index.py" is to get connected device id and port.
+
+    
+Requirement:
+    pip install opencv-python numpy
+
+Fixed Issues:   #
