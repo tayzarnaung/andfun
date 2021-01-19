@@ -1,5 +1,11 @@
 Andfun Yangon/Studio
 
+Version: 1.0
+
+Features Developed: 
+    Web cam capturing 3 imgaes per second automatically.
+
+
 Version: 2.0
 
 New Features: 
@@ -17,5 +23,8 @@ Usage:
     
 Requirement:
     pip install opencv-python numpy
+
+How to run:
+    python auto_capture.py
 
 Fixed Issues:   #

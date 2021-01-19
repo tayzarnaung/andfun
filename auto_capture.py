@@ -3,13 +3,23 @@ import os
 import datetime
 import configparser
 
+
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
 content = config['content']
 # print(config.sections())
 
+# webcam_ids = [0, 2]
+webcam_ids_str = content['webcam_id']
+webcam_ids = []
+for string in webcam_ids_str:
+    try:
+        webcam_ids.append(int(string))
+    except ValueError:
+        continue
+
+
 ret, cap, imgs, webcam_names = ([] for _ in range(4))
-webcam_ids = [0, 2]
 
 for i in webcam_ids:
     webcam_names.append(('Webcam: ' + str(i)))

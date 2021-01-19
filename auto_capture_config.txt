@@ -1,5 +1,5 @@
 [content]
-webcam_id = [0, 2]
+webcam_id = [2, 0]
 img_width = 640
 img_height = 480
 capture_img_per_sec = 3
