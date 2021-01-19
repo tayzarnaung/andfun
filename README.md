@@ -35,5 +35,10 @@ Usage:
 How to run:
     python auto_capture.py
 
-Bugs:   Image Resolution(width x height) can't be changed.
+Bugs:
+
+    Image Resolution(width x height) can't be changed.
+
+    Webcam can't be connected to usb hub because its port no becomes float rather than int. (usbVideoDevice.py) got errors line no 42.
+
 Fixed Issues:   #

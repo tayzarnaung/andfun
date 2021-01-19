@@ -10,28 +10,14 @@ config.read('auto_capture_config.txt')
 content = config['content']
 # print(config.sections())
 
-# webcam_ids_str = content['webcam_id']
-# webcam_ids = []   # [0, 2]
-# for string in webcam_ids_str:
-#     try:
-#         webcam_ids.append(int(string))
-#     except ValueError:
-#         continue
 webcam_ids = json.loads(config.get('content', 'webcam_id'))
 
-
-ret, cap, imgs, webcam_names = ([] for _ in range(4))
-
-for i in webcam_ids:
-    webcam_names.append(('Webcam: ' + str(i)))
-
-# initialize fixed size lists
-for i in range(len(webcam_ids)):
-    ret.append(i)
-    cap.append(i)
-    imgs.append(i)
+# Initialize fixed size lists
+ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
 
 for index, webcam_id in enumerate(webcam_ids):
+    webcam_names[index] = 'Webcam: ' + str(webcam_id)
+
     cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2
     cap[index].set(3, int(content['img_width']))
     cap[index].set(4, int(content['img_height']))
