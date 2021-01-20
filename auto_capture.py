@@ -43,8 +43,7 @@ while True:
                 img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
 
                 cv2.imwrite(os.path.join(path, img_name), imgs[j])
-                print(
-                    f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
+                # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
 
                 img_counter += 1
 
@@ -56,3 +55,4 @@ while True:
 
 # cap.release()  # close the camera
 cv2.destroyAllWindows()  # close all the opened windows
+print("Saved Image Path:" + content['save_img_path'])
