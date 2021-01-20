@@ -12,6 +12,7 @@ content = config['content']
 
 webcam_ids = json.loads(config.get('content', 'webcam_id'))
 
+
 # Initialize fixed size lists
 ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
 

@@ -3,7 +3,8 @@ from usbVideoDevice import UsbVideoDevice
 
 
 usbVideoDevice = UsbVideoDevice()
-webcam_ids = usbVideoDevice.getAllId()
+webcam_ids = usbVideoDevice.getAllIds()
+print(webcam_ids)
 
 config = configparser.ConfigParser()
 
