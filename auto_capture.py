@@ -16,6 +16,7 @@ webcam_ids = json.loads(config.get('content', 'webcam_id'))
 ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
 
 for index, webcam_id in enumerate(webcam_ids):
+
     webcam_names[index] = 'Webcam: ' + str(webcam_id)
 
     cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2

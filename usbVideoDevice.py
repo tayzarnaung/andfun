@@ -33,14 +33,12 @@ class UsbVideoDevice:
         # Get port number
         for line in by_path.split('\n'):
             if('usb-0' in line):
-                # tmp = self.__split(line, '0-usb-0:1.')
-                # tmp = self.__split(line, '0-usb-0:')
-                # tmp = self.__split(tmp[1], ':')
+                # tmp = self.__split(line, '0-usb-0:1.')                
                 tmp = line.split('0-usb-0:')
                 tmp = tmp[1].split(":")
 
-                port = int(tmp[0])
-                # port = float(tmp[0])
+                # port = int(tmp[0])
+                port = float(tmp[0])
                 # tmp = self.__split(tmp[1], '../../video')
                 tmp = tmp[1].split('../../video')
 
