@@ -1,15 +1,9 @@
 import subprocess
 
-
-class Hi:
-    def __init__(self):
-        print('hi')
-
-
 class UsbVideoDevice:
     def __init__(self):
 
-        self.webcams = {'names': [], 'ids': []}
+        self.webcams = {'ids': [], 'names': [], }
 
         try:
             cmd = 'ls -la /dev/v4l/by-id'
@@ -35,7 +29,7 @@ class UsbVideoDevice:
                 except ValueError:
                     print("usbVideoDevice.py can't change to int.")
 
-        print("UsbVideoDevices:\n", self.webcams)
+        print("Usb Video Devices:\n", self.webcams)
 
     # Get connected webcam ids to take images
     def getAllIds(self):

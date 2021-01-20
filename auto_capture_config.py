@@ -4,7 +4,6 @@ from usbVideoDevice import UsbVideoDevice
 
 usbVideoDevice = UsbVideoDevice()
 webcam_ids = usbVideoDevice.getAllIds()
-print(webcam_ids)
 
 config = configparser.ConfigParser()
 
@@ -15,7 +14,7 @@ config['content'] = {
     'img_height': 480,  # 720
     'capture_img_per_sec': 3,
     'max_img_counter': 20,
-    'save_img_path': '/home/wc/Desktop/code/ML/andfun/studio/images'
+    'save_img_path': '/home/wc/Desktop/code/ML/andfun/images'
 }
 
 

@@ -4,5 +4,5 @@ img_width = 640
 img_height = 480
 capture_img_per_sec = 3
 max_img_counter = 20
-save_img_path = /home/wc/Desktop/code/ML/andfun/studio/images
+save_img_path = /home/wc/Desktop/code/ML/andfun/images
 

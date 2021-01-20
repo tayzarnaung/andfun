@@ -1,7 +1,3 @@
-How to check available webcams from the command line?
-	sudo apt-get install v4l-utils
-	v4l2-ctl --list-devices
-	
 lsusb
 ls -la /dev/video*
 
