@@ -1,0 +1,28 @@
+import numpy as np
+import cv2
+
+
+cap = cv2.VideoCapture('09da: 2690')
+print(cap.get(3))
+print(cap.get(4))
+
+# if cap: print(True)
+while cap.isOpened():
+# while "cap" in locals() and cap.isOpened():
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+
+    # Our operations on the frame come here
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Display the resulting frame
+    cv2.imshow('frame', gray)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        cap.release()
+        break
+else:
+    print(False)
+
+# When everything done, release the capture
+
+cv2.destroyAllWindows()

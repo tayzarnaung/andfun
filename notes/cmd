@@ -4,3 +4,8 @@ ls -la /dev/video*
 USB device, port information
 ls -la /dev/v4l/by-id
 ls -la /dev/v4l/by-path
+
+
+Long Listing format for specific usb device
+lsusb -v -d 09da:2690(VID/PID)
+lsusb -v 09da:2690 > output.txt
