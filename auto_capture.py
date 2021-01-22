@@ -15,6 +15,8 @@ webcam_ids = json.loads(config.get('content', 'webcam_id'))
 
 # Initialize fixed size lists
 ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
+img_width = int(content['img_width'])
+img_height = int(content['img_height'])
 
 for index, webcam_id in enumerate(webcam_ids):
 
@@ -22,16 +24,19 @@ for index, webcam_id in enumerate(webcam_ids):
 
     if cv2.VideoCapture(webcam_id).isOpened():
         cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2
-        cap[index].set(3, int(content['img_width']))
-        cap[index].set(4, int(content['img_height']))
+        cap[index].set(3, img_width)
+        cap[index].set(4, img_height)
     else:
         print(f"Failed to open webcam id:{webcam_id}")
         print(f"{index}: {cap[index]} failed to read cv2.VideoCapture()")
 
+today = datetime.date.today()
 start_time = datetime.datetime.now()
 path = os.path.expanduser(content['save_img_path'])  # ('/home/wc/Desktop')
 img_counter = 1
 
+
+# Capturring process
 while True:
     for i in range(len(webcam_ids)):
         if isinstance(cap[i], int):
@@ -42,6 +47,7 @@ while True:
     if (datetime.datetime.now() - start_time).seconds == 1:  # Time elapsed 1 sec
         start_time = datetime.datetime.now()
         # print(start_time.second)
+        print("Writing Images . . .")
 
         for _ in range(int(content['capture_img_per_sec'])):
             for j in range(len(webcam_ids)):
@@ -50,6 +56,8 @@ while True:
                     continue
 
                 img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
+
+                cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.8)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
                 cv2.imwrite(os.path.join(path, img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
