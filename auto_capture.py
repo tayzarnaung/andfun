@@ -46,6 +46,9 @@ while True:
         for _ in range(int(content['capture_img_per_sec'])):
             for j in range(len(webcam_ids)):
 
+                if isinstance(imgs[j], int):
+                    continue
+
                 img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
 
                 cv2.imwrite(os.path.join(path, img_name), imgs[j])
