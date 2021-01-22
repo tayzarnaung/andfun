@@ -57,7 +57,7 @@ while True:
 
                 img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
 
-                cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.8)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+                cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
                 cv2.imwrite(os.path.join(path, img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
