@@ -4,20 +4,32 @@ import datetime
 import configparser
 import json
 
-
+# Read user configuration data
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
 content = config['content']
-# print(config.sections())
+
 
 webcam_ids = json.loads(config.get('content', 'webcam_id'))
 # webcam_ids = [0, 2, -10]    # Testing webcam id that doen't exist
 
-# Initialize fixed size lists
-ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
+path = os.path.expanduser(content['save_img_path'])  # ('/usr/aaa')
+if not os.path.exists(path):    # '/usr/aaa'
+    os.makedirs(path)
+
 img_width = int(content['img_width'])
 img_height = int(content['img_height'])
 
+# Initialize fixed size lists
+ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
+
+img_counter = 1
+start_time = datetime.datetime.now()
+today = start_time.strftime("%m/%d/%Y")   # text on images
+dt_string = start_time.strftime("%B_%d_%Y_%Hhr_%Mmin")
+
+
+# Reading multiple videos
 for index, webcam_id in enumerate(webcam_ids):
 
     webcam_names[index] = 'Webcam: ' + str(webcam_id)
@@ -30,14 +42,10 @@ for index, webcam_id in enumerate(webcam_ids):
         print(f"Failed to open webcam id:{webcam_id}")
         print(f"{index}: {cap[index]} failed to read cv2.VideoCapture()")
 
-today = datetime.date.today()
-start_time = datetime.datetime.now()
-path = os.path.expanduser(content['save_img_path'])  # ('/home/wc/Desktop')
-img_counter = 1
 
-
-# Capturring process
+# Image Capturing process
 while True:
+
     for i in range(len(webcam_ids)):
         if isinstance(cap[i], int):
             continue
@@ -55,7 +63,7 @@ while True:
                 if isinstance(imgs[j], int):
                     continue
 
-                img_name = f"WebCam{webcam_ids[j]}_{img_counter}.png"
+                img_name = f"{dt_string}_{img_counter}.png"
 
                 cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
