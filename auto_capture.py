@@ -14,6 +14,7 @@ webcam_ids = json.loads(config.get('content', 'webcam_id'))
 # webcam_ids = [0, 2, -10]    # Testing webcam id that doen't exist
 
 path = os.path.expanduser(content['save_img_path'])  # ('/usr/aaa')
+# path = '/something'
 if not os.path.exists(path):    # '/usr/aaa'
     try:
         os.makedirs(path, exist_ok=True)
@@ -22,7 +23,7 @@ if not os.path.exists(path):    # '/usr/aaa'
         home = os.path.expanduser("~")
         path = os.path.join(home, 'aaa')
         os.makedirs(path, exist_ok=True)
-        print(f"Default path created {path}")
+        print(f"Default path will be used: {path}")
 
 img_width = int(content['img_width'])
 img_height = int(content['img_height'])
@@ -43,8 +44,8 @@ for index, webcam_id in enumerate(webcam_ids):
 
     if cv2.VideoCapture(webcam_id).isOpened():
         cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2
-        cap[index].set(3, img_width)
-        cap[index].set(4, img_height)
+        # cap[index].set(3, 640)   # 1280
+        # cap[index].set(4, 480)  # 720
     else:
         print(f"Failed to open webcam id:{webcam_id}")
         print(f"{index}: {cap[index]} failed to read cv2.VideoCapture()")
@@ -73,6 +74,8 @@ while True:
                 img_name = f"{dt_string}_{img_counter}.png"
 
                 cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+
+                imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
 
                 isWritten = cv2.imwrite(os.path.join(path, img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
