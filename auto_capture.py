@@ -89,6 +89,6 @@ cv2.destroyAllWindows()  # close all the opened windows
 
 try:
     if isWritten:
-        print("Saved Image Path:" + content['save_img_path'])
+        print("Saved Image Path:" + path)
 except NameError:
     print("Images are not saved.")
