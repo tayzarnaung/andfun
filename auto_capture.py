@@ -15,7 +15,14 @@ webcam_ids = json.loads(config.get('content', 'webcam_id'))
 
 path = os.path.expanduser(content['save_img_path'])  # ('/usr/aaa')
 if not os.path.exists(path):    # '/usr/aaa'
-    os.makedirs(path)
+    try:
+        os.makedirs(path, exist_ok=True)
+    except OSError:
+        print("Can't create destination directory (%s)!" % path)
+        home = os.path.expanduser("~")
+        path = os.path.join(home, 'aaa')
+        os.makedirs(path, exist_ok=True)
+        print(f"Default path created {path}")
 
 img_width = int(content['img_width'])
 img_height = int(content['img_height'])
@@ -67,7 +74,7 @@ while True:
 
                 cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
-                cv2.imwrite(os.path.join(path, img_name), imgs[j])
+                isWritten = cv2.imwrite(os.path.join(path, img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
 
                 img_counter += 1
@@ -79,4 +86,9 @@ while True:
         break
 
 cv2.destroyAllWindows()  # close all the opened windows
-print("Saved Image Path:" + content['save_img_path'])
+
+try:
+    if isWritten:
+        print("Saved Image Path:" + content['save_img_path'])
+except NameError:
+    print("Images are not saved.")
