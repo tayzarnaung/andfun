@@ -1,6 +1,7 @@
 import cv2
 import os
 import datetime
+import time
 import configparser
 import json
 
@@ -21,7 +22,8 @@ if not os.path.exists(path):    # '/usr/aaa'
     except OSError:
         print("Can't create destination directory (%s)!" % path)
         home = os.path.expanduser("~")
-        path = os.path.join(home, 'aaa')
+        path = home
+        # path = os.path.join(home, 'aaa')
         os.makedirs(path, exist_ok=True)
         print(f"Default path will be used: {path}")
 
@@ -60,27 +62,25 @@ while True:
         ret[i], imgs[i] = cap[i].read()
         cv2.imshow(webcam_names[i], imgs[i])
 
-    if (datetime.datetime.now() - start_time).seconds == 1:  # Time elapsed 1 sec
-        start_time = datetime.datetime.now()
-        # print(start_time.second)
-        print("Writing Images . . .")
+    time.sleep(1)
+    print("Writing Images . . .")
 
-        for _ in range(int(content['capture_img_per_sec'])):
-            for j in range(len(webcam_ids)):
+    for _ in range(int(content['capture_img_per_sec'])):
+        for j in range(len(webcam_ids)):
 
-                if isinstance(imgs[j], int):
-                    continue
+            if isinstance(imgs[j], int):
+                continue
 
-                img_name = f"{dt_string}_{img_counter}.png"
+            img_name = f"{dt_string}_{img_counter}.png"
 
-                cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+            cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(img_width * 0.5), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
-                imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
+            imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
 
-                isWritten = cv2.imwrite(os.path.join(path, img_name), imgs[j])
-                # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
+            isWritten = cv2.imwrite(os.path.join(path, img_name), imgs[j])
+            # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
 
-                img_counter += 1
+            img_counter += 1
 
     if img_counter >= int(content['max_img_counter']):
         break

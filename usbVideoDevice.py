@@ -24,8 +24,8 @@ class UsbVideoDevice:
                 tmp = tmp[1].split('../../video')
 
                 try:
-                    if tmp[1] not in self.webcams['ids'] and int(tmp[1]) % 2 == 0:
-                        self.webcams['ids'].append(int(tmp[1]))
+                    # if tmp[1] not in self.webcams['ids'] and int(tmp[1]) % 2 == 0:
+                    self.webcams['ids'].append(int(tmp[1]))
                 except ValueError:
                     print("usbVideoDevice.py can't change to int.")
 
