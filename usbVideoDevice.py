@@ -30,6 +30,7 @@ class UsbVideoDevice:
                     print("usbVideoDevice.py can't change to int.")
 
         print("Usb Video Devices:\n", self.webcams)
+        print('\n')
 
     # Get connected webcam ids to take images
     def getAllIds(self):

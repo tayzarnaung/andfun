@@ -18,7 +18,7 @@ path = os.path.expanduser(content['save_img_path'])  # ('/usr/aaa')
 # path = '/something'
 if not os.path.exists(path):    # '/usr/aaa'
     try:
-        os.makedirs(path, exist_ok=True)
+        os.makedirs(path)
     except OSError:
         print("Can't create destination directory (%s)!" % path)
         home = os.path.expanduser("~")
@@ -34,9 +34,9 @@ img_height = int(content['img_height'])
 ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
 
 img_counter = 1
-start_time = datetime.datetime.now()
-today = start_time.strftime("%m/%d/%Y")   # text on images
-dt_string = start_time.strftime("%B_%d_%Y_%Hhr_%Mmin")
+now = datetime.datetime.now()
+today = now.strftime("%m/%d/%Y")   # text on images
+dt_string = now.strftime("%B_%d_%Y_%Hhr_%Mmin")
 
 
 # Reading multiple videos
