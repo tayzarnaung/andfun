@@ -17,12 +17,6 @@ config = configparser.ConfigParser()
 #     'save_img_path': '/home/wc/Desktop/code/ML/andfun/images'
 # }
 
-
-window = Tk()
-window.title("Webcam Config Settings")
-window.geometry('420x240')
-
-
 def confirm():
     config['content'] = {
         # 'webcam_id': [0, 2],  # 2
@@ -35,6 +29,14 @@ def confirm():
     }
     window.destroy()
 
+    with open('auto_capture_config.txt', 'w') as configfile:
+        config.write(configfile)
+    print("Config data is saved to auto_capture_config.txt")
+
+
+window = Tk()
+window.title("Webcam Config Settings")
+window.geometry('420x240')
 
 Label(window, text="Imgae Width:").grid(row=0, column=0)
 Label(window, text="Image Height:").grid(row=1, column=0)
@@ -62,9 +64,3 @@ Button(window, text="Cancel", command=window.destroy).grid(
 Button(window, text="Confirm", command=confirm).grid(row=5, column=1, sticky=E)
 
 window.mainloop()
-
-
-with open('auto_capture_config.txt', 'w') as configfile:
-    config.write(configfile)
-
-print("Config data is saved to auto_capture_config.txt")
