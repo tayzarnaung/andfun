@@ -1,8 +1,8 @@
 [content]
 webcam_id = [0, 1, 2, 3]
-img_width = sfa
-img_height = dsf
-capture_img_per_sec = fasf
-max_img_counter = fae
-save_img_path = fea
+img_width = 400
+img_height = 300
+capture_img_per_sec = 2
+max_img_counter = 50
+save_img_path = /home/wc/Desktop/code/ML/andfun/images
 
