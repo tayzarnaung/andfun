@@ -91,7 +91,7 @@ class Window(tk.Tk):
 
 
 usbVideoDevice = UsbVideoDevice()
-webcam_ids = usbVideoDevice.getAllIds()
+webcam_ids = usbVideoDevice.getAllIds()  # [0, 2]
 
 config = configparser.ConfigParser()
 

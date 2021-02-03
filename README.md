@@ -12,12 +12,6 @@ Description:
     I set the maximum limit of auto capturing imgaes just to 20 phtots.
 
 
-Prerequisite:
-    Linux environment, python3, opencv-python
-    sudo apt install python3, python3-pip
-    pip3 install opencv-python
-
-
 File Description:
 
     "usbVideoDevice.py":
@@ -36,6 +30,12 @@ File Description:
     "auto_capture.py":
          will do the main function.
 
+
+Prerequisite:
+    Linux environment, python3, opencv-python
+    sudo apt install python3, python3-pip, python3-tk
+    pip3 install opencv-python
+    
 
 How to run:
     python auto_capture_config.py
