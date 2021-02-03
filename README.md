@@ -40,6 +40,3 @@ File Description:
 How to run:
     python auto_capture_config.py
     python auto_capture.py
-
-
-Bugs:   Image Resolution(width x height) can't be changed.
