@@ -8,43 +8,41 @@ import json
 # Read user configuration data
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
+
 content = config['content']
-
-
-webcam_ids = json.loads(config.get('content', 'webcam_id'))
-# webcam_ids = [0, 2, -10]    # Testing webcam id that doen't exist
-
-config_path = os.path.expanduser(content['save_img_path'])  # ('/usr/aaa')
-# config_path = '/something'
-
 img_width = int(content['img_width'])
 img_height = int(content['img_height'])
 
-# Initialize fixed size lists
-ret, cap, imgs, webcam_names = [list(range(len(webcam_ids))) for _ in range(4)]
+webcam_ids = json.loads(config.get('content', 'webcam_id'))
+config_path = os.path.expanduser(content['save_img_path'])
 
-img_counter = 1
-now = datetime.datetime.now()
-today = now.strftime("%m/%d/%Y")   # text on images
-dt_string = now.strftime("%B_%d_%Y_%Hhr_%Mmin")
-
-# webcam_ids = [0,2]
 # Reading multiple web cams
-for index, webcam_id in enumerate(webcam_ids):  # 0,1,2,3
-    webcam_names[index] = 'Webcam: ' + str(webcam_id)
+cap, webcam_names = ([None] * len(webcam_ids) for _ in range(2))
+unopened_webcam_ids = []
 
+for index, webcam_id in enumerate(webcam_ids):
     if cv2.VideoCapture(webcam_id).isOpened():
         cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2
         # cap[index].set(3, 640)   # 1280
         # cap[index].set(4, 480)  # 720
+        webcam_names[index] = 'Webcam: ' + str(webcam_id)
     else:
-        print(f"Failed to open webcam id:{webcam_id} and {index}")
+        unopened_webcam_ids.append(webcam_id)
+        print(f"Failed to open webcam id:{webcam_id}")
 
-        # del webcam_ids[index]        index -= 1
-        # webcam_ids.remove(webcam_ids[index])
-        # webcam_ids.pop(index)
 
-        
+# Cleaning failed index of which webcam ids cannot be read
+webcam_names = [ele for ele in webcam_names if ele is not None]
+webcam_ids = [ele for ele in webcam_ids if ele not in unopened_webcam_ids]
+
+for ele in cap:
+    if ele is None:
+        cap.remove(ele)
+
+
+# Initialize fixed size lists
+ret, imgs = [list(range(len(webcam_ids))) for _ in range(2)]
+
 # Separating dir using webcam_ids
 paths = [None] * len(webcam_ids)
 for i in range(len(webcam_ids)):
@@ -63,37 +61,38 @@ for i in range(len(webcam_ids)):
 
 # Image Capturing process
 start_time = datetime.datetime.now()
+img_counter = 0
 while True:
 
     for i in range(len(webcam_ids)):
-        if isinstance(cap[i], int):
-            continue
+        # if cap[i] is None:  continue
         ret[i], imgs[i] = cap[i].read()
         cv2.imshow(webcam_names[i], imgs[i])
 
     # time.sleep(1)
     if (datetime.datetime.now() - start_time).seconds == 1:  # Time elapsed 1 sec
         start_time = datetime.datetime.now()
+        txt_on_imgs = start_time.strftime("%Y_%m_%d_%Hhr_%Mmin_%Ssec")
+
         print("Writing Images . . .")
         # print(start_time.second)
 
         for _ in range(int(content['capture_img_per_sec'])):
+            img_counter += 1
             for j in range(len(webcam_ids)):
 
-                if isinstance(imgs[j], int):
-                    continue
+                # if isinstance(imgs[j], int):    continue
 
-                img_name = f"{dt_string}_{img_counter}.png"
+                img_name = f"{txt_on_imgs}_{img_counter}.png"
 
-                cv2.putText(imgs[j], f"{today}  id:{webcam_ids[j]}", (int(
-                    img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 2)
+                cv2.putText(imgs[j], f"webcam id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 2)
 
                 imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
 
-                isWritten = cv2.imwrite(os.path.join(paths[j], img_name), imgs[j])
+                isWritten = cv2.imwrite(
+                    os.path.join(paths[j], img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
 
-                img_counter += 1
 
     if img_counter >= int(content['max_img_counter']):
         break
