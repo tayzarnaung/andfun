@@ -9,15 +9,17 @@ import json
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
 
+# webcam_names = json.loads(config.get('content', 'webcam_names'))
+# print(webcam_names)
+webcam_ids = json.loads(config.get('content', 'webcam_id'))
+
 content = config['content']
 img_width = int(content['img_width'])
 img_height = int(content['img_height'])
-
-webcam_ids = json.loads(config.get('content', 'webcam_id'))
 config_path = os.path.expanduser(content['save_img_path'])
 
 # Reading multiple web cams
-cap, webcam_names = ([None] * len(webcam_ids) for _ in range(2))
+cap, cap_titles = ([None] * len(webcam_ids) for _ in range(2))
 unopened_webcam_ids = []
 
 for index, webcam_id in enumerate(webcam_ids):
@@ -25,15 +27,15 @@ for index, webcam_id in enumerate(webcam_ids):
         cap[index] = cv2.VideoCapture(webcam_id)    # 0, 2
         # cap[index].set(3, 640)   # 1280
         # cap[index].set(4, 480)  # 720
-        webcam_names[index] = 'Webcam: ' + str(webcam_id)
+        cap_titles[index] = 'Webcam: ' + str(webcam_id)
     else:
         unopened_webcam_ids.append(webcam_id)
         print(f"Failed to open webcam id:{webcam_id}")
 
 
 # Cleaning failed index of which webcam ids cannot be read
-webcam_names = [ele for ele in webcam_names if ele is not None]
 webcam_ids = [ele for ele in webcam_ids if ele not in unopened_webcam_ids]
+cap_titles = [ele for ele in cap_titles if ele is not None]
 
 for ele in cap:
     if ele is None:
@@ -67,7 +69,7 @@ while True:
     for i in range(len(webcam_ids)):
         # if cap[i] is None:  continue
         ret[i], imgs[i] = cap[i].read()
-        cv2.imshow(webcam_names[i], imgs[i])
+        cv2.imshow(cap_titles[i], imgs[i])
 
     # time.sleep(1)
     if (datetime.datetime.now() - start_time).seconds == 1:  # Time elapsed 1 sec
@@ -85,7 +87,7 @@ while True:
 
                 img_name = f"{txt_on_imgs}_{img_counter}.png"
 
-                cv2.putText(imgs[j], f"webcam id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 2)
+                cv2.putText(imgs[j], f"id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 2)
 
                 imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
 

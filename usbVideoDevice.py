@@ -35,3 +35,6 @@ class UsbVideoDevice:
     # Get connected webcam ids to take images
     def getAllIds(self):
         return self.webcams['ids']
+
+    def getAllNames(self):
+        return self.webcams['names']
