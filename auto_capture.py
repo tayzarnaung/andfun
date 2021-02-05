@@ -87,9 +87,8 @@ while True:
 
                 img_name = f"{txt_on_imgs}_{img_counter}.png"
 
-                cv2.putText(imgs[j], f"id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 2)
-
                 imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
+                cv2.putText(imgs[j], f"id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
                 isWritten = cv2.imwrite(
                     os.path.join(paths[j], img_name), imgs[j])
