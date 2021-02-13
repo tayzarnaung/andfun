@@ -1,9 +1,8 @@
 [content]
-webcam_id = [2, 3, 0, 1]
-webcam_names = ['CNFHH47P0214100716F0_Integrated_Webcam_HD', 'Sonix_Technology_Co.__Ltd._A4tech_HD_720P_PC_Camera_SN0001']
-img_width = 800
-img_height = 800
-capture_img_per_sec = 4
-max_img_counter = 40
+webcam_ids = [0, 1, 2, 3]
+img_width = 600
+img_height = 400
+capture_img_per_sec = 3
+max_img_counter = 30
 save_img_path = /home/wc/Desktop/code/ML/andfun/images
 

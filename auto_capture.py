@@ -9,9 +9,7 @@ import json
 config = configparser.ConfigParser()
 config.read('auto_capture_config.txt')
 
-# webcam_names = json.loads(config.get('content', 'webcam_names'))
-# print(webcam_names)
-webcam_ids = json.loads(config.get('content', 'webcam_id'))
+webcam_ids = json.loads(config.get('content', 'webcam_ids'))
 
 content = config['content']
 img_width = int(content['img_width'])
@@ -88,12 +86,12 @@ while True:
                 img_name = f"{txt_on_imgs}_{img_counter}.png"
 
                 imgs[j] = cv2.resize(imgs[j], (img_width, img_height))
-                cv2.putText(imgs[j], f"id:{webcam_ids[j]}", (int(img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+                cv2.putText(imgs[j], f"id:{webcam_ids[j]}", (int(
+                    img_width * 0.6), int(img_height * 0.9)), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
 
                 isWritten = cv2.imwrite(
                     os.path.join(paths[j], img_name), imgs[j])
                 # print(f"{img_name} written! {imgs[j].shape[1]}x{imgs[j].shape[0]} pixels")
-
 
     if img_counter >= int(content['max_img_counter']):
         break

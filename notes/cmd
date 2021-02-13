@@ -1,5 +1,6 @@
-lsusb
 ls -la /dev/video*
+lsusb
+lsusb -s 001:003 -v | egrep "Width|Height"
 
 USB device, port information
 ls -la /dev/v4l/by-id

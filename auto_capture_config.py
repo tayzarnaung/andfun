@@ -53,7 +53,7 @@ class Window(tk.Tk):
     def browse(self):
         self.dir_selected = filedialog.askdirectory()
         self.dir_txt.set(self.dir_selected)
-        print(self.dir_txt.get())
+        # print(self.dir_txt.get())
 
     def only_numbers(self, char):
         return char.isdigit()
@@ -73,8 +73,7 @@ class Window(tk.Tk):
 
             config['content'] = {
                 # get() returns str
-                'webcam_id': webcam_ids,  # [0, 2]
-                'webcam_names': webcam_names,
+                'webcam_ids': webcam_ids,  # [0, 2]
                 'img_width': self.img_width.get(),  # 1280
                 'img_height': self.img_height.get(),  # 720
                 'capture_img_per_sec': self.capture_img_per_sec,  # 3
@@ -93,7 +92,7 @@ class Window(tk.Tk):
 
 usbVideoDevice = UsbVideoDevice()
 webcam_ids = usbVideoDevice.getAllIds()  # [0, 2]
-webcam_names = usbVideoDevice.getAllNames()
+
 
 config = configparser.ConfigParser()
 

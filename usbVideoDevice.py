@@ -1,40 +1,23 @@
 import subprocess
 
+
 class UsbVideoDevice:
+
     def __init__(self):
-
-        self.webcams = {'ids': [], 'names': [], }
-
         try:
-            cmd = 'ls -la /dev/v4l/by-id'
+            cmd = 'ls /dev'
             res = subprocess.check_output(cmd.split())
-            by_id = res.decode()
+
+            dev_ls = res.decode()
+            dev_ls = dev_ls.split('\n')
+
+            video_dev = [
+                video_dev for video_dev in dev_ls if video_dev.startswith('video')]
+
+            # print("Device", video_dev)
+            self.video_ids = [int(id[5:]) for id in video_dev]
         except Exception:
             return
 
-        # Set connected webcam device names and ids
-        for line in by_id.split('\n'):
-            if('../../video' in line):
-                tmp = line.split('usb-')
-                tmp = tmp[1].split('-video-index')
-
-                if tmp[0] not in self.webcams['names']:
-                    self.webcams['names'].append(tmp[0])
-
-                tmp = tmp[1].split('../../video')
-
-                try:
-                    # if tmp[1] not in self.webcams['ids'] and int(tmp[1]) % 2 == 0:
-                    self.webcams['ids'].append(int(tmp[1]))
-                except ValueError:
-                    print("usbVideoDevice.py can't change to int.")
-
-        print("Usb Video Devices:\n", self.webcams)
-        print('\n')
-
-    # Get connected webcam ids to take images
     def getAllIds(self):
-        return self.webcams['ids']
-
-    def getAllNames(self):
-        return self.webcams['names']
+        return self.video_ids

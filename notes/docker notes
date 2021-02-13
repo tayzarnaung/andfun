@@ -1,0 +1,2 @@
+sudo pip3 install libgtk2.0-dev and pkg-config
+sudo apt-get install libopencv-dev python3-opencv
